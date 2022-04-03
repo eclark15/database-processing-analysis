@@ -4,11 +4,7 @@ Database processing for large-scale analytics to extrapolate 1M Twitter tweets. 
 
 **Project description:** 
 
-In this IR project, I created a search engine retrieval system from scratch that crawls the web pages in the domain https://www.bosch.us and returns the top 7 most relevant web pages based on the user’s search query. The base implementation includes a **VSM (vector-space model) using TF-IDF with Cosine similarity** which is used for matching queries and indexed documents. In addition, the system includes the primary elements of a document retrieval system such as a web crawler, indexer, and query processing components. 
-
-The search retrieval system consists of two python files, one that contains the index of the website ([final_index.py](https://github.com/eclark15/intelligent_information_retrieval/blob/c6f9a69339e48d05afc0749053f34ca27af04d95/python_files/final_index.py)) and the second file which retrieves the user’s search query and returns the relevant web pages ([queryRetrieve.py](https://github.com/eclark15/intelligent_information_retrieval/blob/c6f9a69339e48d05afc0749053f34ca27af04d95/python_files/queryRetrieve.py)). Feel free to refer to the [README.txt](https://github.com/eclark15/intelligent_information_retrieval/blob/c509d128820c353551ca44f0741f26c7edd1a641/python_files/README.txt) file for further details. 
-
-![gif](https://user-images.githubusercontent.com/50348032/160918448-38bbac51-cba0-4f9c-b353-c022873711f3.gif)
+This is my project description 
 
 ## 1. Creating a Website Index 
 ### 1a. Identify and Collect Relevant Web Pages
