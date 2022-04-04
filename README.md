@@ -8,11 +8,11 @@
 ### 1a. Create Empty SQL Tables  
 
 Created 3 SQL tables: 
-1. GeoTable - 
-2. UserTable
-3. TweetsTable
+1. **GeoTable** - variables related to the user's geo-coordinates   
+2. **UserTable** - variables related to the user
+3. **TweetsTable** - variables related to the tweet 
 
-Sample: 
+**Sample Table:**
 ```python
 
 TweetsTable = '''CREATE TABLE Tweets (
@@ -35,7 +35,12 @@ TweetsTable = '''CREATE TABLE Tweets (
               );'''
 ```
 
-### 1b.   SQLite Table
+### 1b. Open a DB Connection
+* Opened a database connection called Final_Database.db
+* Created a cursor class to run SQL commands in the database session
+* Save Twitter data in the variable wFD 
+* Cleared all tables in case they already exist in the DB
+* Add empty tables to the DB 
 
 
 ```python
@@ -43,8 +48,7 @@ conn = sqlite3.connect('Final_Database.db')
 c = conn.cursor()
 wFD = urllib.request.urlopen('http://rasinsrv07.cstcis.cti.depaul.edu/CSC455/OneDayOfTweets.txt')
 
-# Tweet table gets dropped first and created last (Referential Integirty)
-c.execute('DROP TABLE IF EXISTS Tweets');
+c.execute('DROP TABLE IF EXISTS Tweets'); 
 c.execute('DROP TABLE IF EXISTS User');
 c.execute('DROP TABLE IF EXISTS Geo');
 c.execute(GeoTable)
@@ -52,14 +56,29 @@ c.execute(UserTable)
 c.execute(TweetsTable)
 ```
 
-### 1c. Populate SQL Tables
+### 1c. Populate SQL Tables 
+Used JSON to decode and load all of the tweet information into a dictionary called `tweetDict`.  
 
+Created dictionaries for each SQL table to hold all of the tweets by unique ID. 
+We do this using batching to load 500 tweets at a time to save on memory space. 
 
 Write python code to read through the Assignment4.txt file and populate your table from part a.  Make sure your python code reads through the file and loads the data properly (including NULLs). 
 
+**Sample Python Code for Tweets Table:**
+```python
+tweetKeys = ['id', 'created_at', 'text', 'source', 'in_reply_to_user_id',
+            'in_reply_to_screen_name', 'in_reply_to_status_id', 
+            'retweet_count', 'contributors']
 
 
-## 2. Query Interface 
+if loadCounter < 500: # Batching 500 at a time
+            tweetBatch.append(newRowTweet)
+        else:
+            c.executemany ('INSERT OR IGNORE INTO Tweets VALUES(?,?,?,?,?,?,?,?,?,?,?)', tweetBatch)
+            tweetBatch = [] # Reset the list of batched tweets
+```
+
+## 2. Running SQL Queries 
 Now that the index has been generated and saved, we are able to move into the queryRetrieve.py file. queryRetrieve.py imports the dictionary indexes and is used to return the most relevant web pages associated with a user’s search query. 
 
 ### 2a. Calculating the Cosine Similarity
