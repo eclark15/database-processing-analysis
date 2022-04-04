@@ -8,9 +8,9 @@
 ### 1a. Create Empty SQL Tables  
 
 Created 3 SQL tables: 
-1. **GeoTable** - variables related to the user's geo-coordinates   
-2. **UserTable** - variables related to the user
-3. **TweetsTable** - variables related to the tweet 
+1. **GeoTable** - to store variables related to the user's geo-coordinates   
+2. **UserTable** - to store variables related to the user
+3. **TweetsTable** - to store variables related to the tweet 
 
 **Sample Table:**
 ```python
@@ -57,12 +57,8 @@ c.execute(TweetsTable)
 ```
 
 ### 1c. Populate SQL Tables 
-Used JSON to decode and load all of the tweet information into a dictionary called `tweetDict`.  
+Used JSON to decode and load all of the tweet information into a dictionary called `tweetDict`.  This is done using batching to load 500 tweets at a time to save on memory space. The python code is able to read through the data and loads it properly including NULLs for missing data. 
 
-Created dictionaries for each SQL table to hold all of the tweets by unique ID. 
-We do this using batching to load 500 tweets at a time to save on memory space. 
-
-Write python code to read through the Assignment4.txt file and populate your table from part a.  Make sure your python code reads through the file and loads the data properly (including NULLs). 
 
 **Sample Python Code for Tweets Table:**
 ```python
