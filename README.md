@@ -1,65 +1,63 @@
-# database-processing-analysis
-Database processing for large-scale analytics to extrapolate 1M Twitter tweets. Using Python and SQLite to process unstructured data and run SQL queries 
-## Search Engine Retrieval System 
+# Processing Unstructured Twitter Data using SQLite 
+**Project description:**  Extrapolate and parse 1M Twitter tweets. Python and SQLite are used to process and clean the unstructured data, populate SQL tables with Twitter attributes and values and run SQL queries. This was my take home final project for the DePaul Database processing for large-scale analytics class. 
 
-**Project description:** 
+**Data Description:** The Twitter data was a .txt file which was available online and consisted of 1,000,000 lines of tweets. The tweets were organized in nested dictionaries (one dictionary for the tweet data and one dictionary for the user data). Sample data can be found here: [TwitterTweets.txt](https://github.com/eclark15/database-processing-analysis/files/8412892/TwitterTweets.txt). The input data is separated by a string “EndOfTweet” which serves as a delimiter. 
 
-This is my project description 
 
-## 1. Creating a Website Index 
-### 1a. Identify and Collect Relevant Web Pages
+## 1. Create SQLite Tables, Open a DB Connection & Clean the Unstructured Data
+### 1a. Create Empty SQL Tables  
 
-First, using final_index.py I collected the list of relevant URLs on bosch.us. The system crawls every website page recursively using a `crawl()` function and gathers the web page links using Beautiful Soup while simultaneously cleaning the URLs and removing unwanted pages such as PDFs.
+Created 3 SQL tables: 
+1. GeoTable - 
+2. UserTable
+3. TweetsTable
 
+Sample: 
 ```python
-def crawl(url):                            #crawls all web pages to discover all page links and content 
-    webPageID = urlIndex(url)  
-    print(webPageID, url)                  
-    soup, url = gatherPageLinks(url)                  
-    gatherPageText(url, soup, webPageID)      
-    visited.append(url)                     
-    
-    for link in links:            
-        if link not in visited:   
-            try:
-                crawl(link)                #recursively crawl all pages 
-            except:
-                pass
+
+TweetsTable = '''CREATE TABLE Tweets (
+                 id          NUMBER(20),               
+                 Created_At       DATE,
+                 Text             VARCHAR(400),
+                 Source VARCHAR(200) DEFAULT NULL,
+                 In_Reply_to_User_ID NUMBER(20),
+                 In_Reply_to_Screen_Name VARCHAR(60),
+                 In_Reply_to_Status_ID NUMBER(20),
+                 Retweet_Count    NUMBER(10),
+                 Contributors     VARCHAR(200),
+                 user_id     NUMBER(20),
+                 geo_id      NUMBER(20),
+                 CONSTRAINT Tweets_PK  PRIMARY KEY (id)
+                 CONSTRAINT Tweets_FK1 FOREIGN KEY (user_id)
+                     REFERENCES User(ID)
+                 CONSTRAINT Tweets_FK2 FOREIGN KEY (geo_id)
+                     REFERENCES Geo(ID)
+              );'''
 ```
 
-### 1b. Gather, Preprocess, and Store Relevent Words 
+### 1b.   SQLite Table
 
-Next, `gatherPageText()` was used to gather the relevant text from each page. By passing in the Beautiful Soup class, I was able to parse through the webpages and exclude any tags that do not contain relevant text. 
-
-Additionally, preprocessing tasks were performed such as removing stop words (using NLTK), creating a dictionary to accumulate each full word and its token, and lastly creating a `postingDict` that will manually calculate the TF (term frequency) values for each word on each page. 
 
 ```python
-porter = PorterStemmer()
-for word in fullWords:                      
-    stemmedWord = porter.stem(word)        
-    if word not in termTokenDict.keys(): 
-        termTokenDict.update({word : stemmedWord})                     #updating dictionary with full word + token word
-    
-    if stemmedWord not in postingsDict.keys():                         #brand new word in our postings dict
-        postingsDict.update({stemmedWord : {webPageID : [1, 'idf']}})  #stemmed word : {webpageID :[TF, IDF], DocFreq : DF}
-    
-    elif webPageID not in postingsDict[stemmedWord].keys():            #if the term is in dictionary but has not appeared in current document
-        postingsDict[stemmedWord][webPageID] = [1, 'idf']
-        
-    else:
-        TF = postingsDict[stemmedWord][webPageID][0]                   #updating the term frequency value if the term has appeared on the current page already 
-        TF = TF + 1 
-        postingsDict[stemmedWord][webPageID][0] = TF
+conn = sqlite3.connect('Final_Database.db')
+c = conn.cursor()
+wFD = urllib.request.urlopen('http://rasinsrv07.cstcis.cti.depaul.edu/CSC455/OneDayOfTweets.txt')
+
+# Tweet table gets dropped first and created last (Referential Integirty)
+c.execute('DROP TABLE IF EXISTS Tweets');
+c.execute('DROP TABLE IF EXISTS User');
+c.execute('DROP TABLE IF EXISTS Geo');
+c.execute(GeoTable)
+c.execute(UserTable)
+c.execute(TweetsTable)
 ```
 
-### 1c. Using TF-IDF to Identify Word Importance 
+### 1c. Populate SQL Tables
 
-Once all the pages have been crawled and each word is sorted into the dictionaries, I can calculate the DF (document frequency) and IDF (inverse document frequency) values. The TF-IDF values will be used, in this case, to quantify the importance of each word on our web pages. 
 
-Each DF, IDF calculation is done manually. The DF values by finding the length of the `postingsDict` and the IDF values by using the following equation: `IDF = math.log((numofPages/DF), 2)`. 
+Write python code to read through the Assignment4.txt file and populate your table from part a.  Make sure your python code reads through the file and loads the data properly (including NULLs). 
 
-The IDF value is then stored into our `postingsDict`. An example of one instance of the `postingsDict` will have the following format: 
-`'scale': {8123: 8.98370619265935, 3692: 4.491853096329675, 'DocFreq': 2, 'IDF': 4.491853096329675} `
+
 
 ## 2. Query Interface 
 Now that the index has been generated and saved, we are able to move into the queryRetrieve.py file. queryRetrieve.py imports the dictionary indexes and is used to return the most relevant web pages associated with a user’s search query. 
