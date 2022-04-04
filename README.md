@@ -74,30 +74,21 @@ if loadCounter < 500: # Batching 500 at a time
             tweetBatch = [] # Reset the list of batched tweets
 ```
 
-## 2. Running SQL Queries 
-Now that the index has been generated and saved, we are able to move into the queryRetrieve.py file. queryRetrieve.py imports the dictionary indexes and is used to return the most relevant web pages associated with a user’s search query. 
+## 2. Write & Execute SQL Queries 
+DESCRIPTION
 
-### 2a. Calculating the Cosine Similarity
-A query is processed based on its relevant terms and evaluated on its associated TF-IDF values using the previously generated index dictionaries. Next, I converted the relevant query words and TF-IDF values into a DataFrame to manually calculate the cosine similarity using numpy for every web page. 
+### 2a. XXXX
+DESCRIPTION
 
 ```python
-def getCosineSimiliarty(postingsDictQueryDFClean, queryList):   #computing cosine similarity between our query and all website pages
-    import numpy as np
-    from numpy.linalg import norm
-    
-    def cosine_similarity(QueryVect, DocVect):                  #returns cosine similarity when 2 lists are entered 
-        cosine = np.dot(QueryVect,DocVect)/(norm(QueryVect) * norm(DocVect))
-        return cosine
+CODE
 
 ```
-## 3. Tests and Results
-### 3a. Query #1 'internships in marketing or design'
-In the table, the top 7 pages that the system calculated as being the most relevant based on the user’s search query. However, we can see that only Search Result Number 1,2,3 and 6 are actually relevant while search result numbers 4, 5, and 7 are not relevant. 
+## 3. Add New Columns to Tables 
+### 3a. 
+DESCRIPTION
 
-<img width="633" alt="queryTest_internships" src="https://user-images.githubusercontent.com/50348032/160932829-75c72d00-7fdb-4b78-a462-0c25a1e66dc2.png">
-
-### 3b. Query #2 'environmental sustainability responsibility'
-<img width="626" alt="queryTest_sustainability" src="https://user-images.githubusercontent.com/50348032/160932842-6a392452-855b-4663-9534-fd0ff035688e.png">
+### 3b. Add two new columns (“name” and “screen_name”) from User table
 
 ## 3. Further Improvements and Enhancements
 
