@@ -90,7 +90,7 @@ def processTweets(wFD):  # processing tweets and populating SQL tables
     geoBatch = []     # collect batch data for Geo table
     loadCounter = 0   # keeping count for our batching 
 
-    for i in range(500000):  # process 500,000 lines of tweets
+    for i in range(1000000):  # process 1,000,000 lines/tweets
         
         if i % 10000 == 0:   # print a message every 10,000th tweet 
             print ("Processed " + str(i) + " tweets")
