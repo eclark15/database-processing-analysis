@@ -1,7 +1,7 @@
-# Processing Unstructured Twitter Data using SQLite 
-**Project description:**  Extrapolate and parse 1M Twitter tweets. Python and SQLite are used to process and clean the unstructured data, populate SQL tables with Twitter attributes and values and run SQL queries. This was my take home final project for the DePaul Database processing for large-scale analytics class. 
+# Process & Analyze Unstructured Twitter Data using Python & SQLite 
+**Project description:**  Extrapolate and parse 1M Twitter tweets. Python and SQLite are used to process and clean the unstructured data, populate SQL tables with Twitter attributes and values and run SQL queries. This was part of my take home final project for the DePaul Database processing for large-scale analytics class. 
 
-**Data Description:** The Twitter data was a .txt file which was available online and consisted of 1,000,000 lines of tweets. The tweets were organized in nested dictionaries (one dictionary for the tweet data and one dictionary for the user data). Sample data can be found here: [TwitterTweets.txt](https://github.com/eclark15/database-processing-analysis/files/8412892/TwitterTweets.txt). The input data is separated by a string “EndOfTweet” which serves as a delimiter. 
+**Data Description:** The Twitter data was a .txt file which was available online and consisted of 1,000,000 lines of tweets. The tweets were organized in a nested dictionary (the primary dictionary for the tweet data and the nested dictionary for the user data). Sample data can be found here: [TwitterTweets.txt](https://github.com/eclark15/database-processing-analysis/files/8412892/TwitterTweets.txt). The input data is separated by a string “EndOfTweet” which serves as a delimiter. 
 
 
 ## 1. Create SQLite Tables, Open a DB Connection & Clean the Unstructured Data
@@ -57,7 +57,7 @@ c.execute(TweetsTable)
 ```
 
 ### 1c. Populate SQL Tables 
-Used JSON to decode and load all of the tweet information into a dictionary called `tweetDict`.  This is done using batching to load 500 tweets at a time to save on memory space. The python code reads through all of the Twitter data and loads it properly including NULLs when there is any missing data. 
+Used JSON to decode and load all of the tweet information into a dictionary called `tweetDict`.  This is done using batching to load 500 tweets at a time to save on memory space. The python code reads through all of the Twitter data, saves the data into a list called `tweetBatch` and loads it properly including NULLs when there is any missing data. 
 
 
 **Sample Python Code for Tweets Table:**
@@ -107,11 +107,6 @@ stop1 = time.time()
 print("Diff " + str(stop1-start1))
 
 ```
-## 3. Add New Columns to Tables 
-### 3a. 
-DESCRIPTION
-
-### 3b. Add two new columns (“name” and “screen_name”) from User table
 
 ## 3. Further Improvements and Enhancements
 
