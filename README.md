@@ -1,7 +1,7 @@
 # Process & Analyze Unstructured Twitter Data using Python & SQLite 
 **Project description:**  Extrapolate and parse 1M Twitter tweets. Python and SQLite are used to process and clean the unstructured data, populate SQL tables with Twitter attributes and values and run SQL queries. Batching is used to save on memory space .This was part of my take home final project for the DePaul Database processing for large-scale analytics class. 
 
-**Data Description:** The Twitter data was a .txt file which was available online and consisted of 1,000,000 tweets. The tweets were organized in nested dictionaries (the internal dictionary for the tweet data and the nested dictionaries for the user and geo data). Sample data can be found here: [TwitterTweets.txt](https://github.com/eclark15/database-processing-analysis/files/8412892/TwitterTweets.txt). The input data is separated by a string “EndOfTweet” which serves as a delimiter. 
+**Data Description:** The Twitter data was a .txt file which was available online and consisted of 1,000,000 tweets. The tweets were organized in nested dictionaries (the internal dictionary for the tweet data and the nested dictionaries for the user and geo data). Sample data can be found here: . The input data is separated by a string “EndOfTweet” which serves as a delimiter. 
 
 
 ## 1. Create SQLite Tables & Open a DB Connection
